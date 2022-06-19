@@ -30,14 +30,10 @@ public class MyPlanPage{
     }
 
     private WebElement getModalWindowsCloseButton() {
-
-       // return driver.findElementByCssSelector(MODAL_WINDOWS_CLOSE_BUTTON);
-
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement element = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector(MODAL_WINDOWS_CLOSE_BUTTON)));
-        return element;
+        return BasePage.getElementWithExplicitWait(driver, MODAL_WINDOWS_CLOSE_BUTTON);
     }
+
+
 
 
     public void modalWindowsCloseButtonClick() {
@@ -87,8 +83,6 @@ public class MyPlanPage{
     //WebDriverWait wait=new WebDriverWait(driver, 20);
     //element1 = wait.until(ExpectedConditions.elementToBeClickable(By.className("fa-stack-1x")));
     private void buttonClick(WebElement button) {
-
-        //assertTrue(button.isDisplayed());
         button.click();
     }
 

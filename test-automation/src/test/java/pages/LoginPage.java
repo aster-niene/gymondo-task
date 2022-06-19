@@ -33,7 +33,8 @@ public class LoginPage {
     }
 
     private WebElement getAcceptButton(){
-        return driver.findElementByCssSelector(CSS_ACCEPT_BUTTON);
+        return BasePage.getElementWithExplicitWait(driver, CSS_ACCEPT_BUTTON);
+        //return driver.findElementByCssSelector(CSS_ACCEPT_BUTTON);
     }
 
     private WebElement getLoginField(){
@@ -46,7 +47,8 @@ public class LoginPage {
         return driver.findElementByCssSelector(CSS_SUBMIT_BUTTON);
     }
     private WebElement getLoginButton() {
-        return  driver.findElementByCssSelector(CSS_LOG_IN_BUTTON);
+        return BasePage.getElementWithExplicitWait(driver, CSS_LOG_IN_BUTTON);
+        //return  driver.findElementByCssSelector(CSS_LOG_IN_BUTTON);
     }
     public void acceptButtonClick(){
         buttonClick(getAcceptButton());
@@ -56,7 +58,6 @@ public class LoginPage {
         inputToFiled(getPasswordField(), password);
     }
     private void buttonClick(WebElement button) {
-        assertTrue(button.isDisplayed());
         button.click();
     }
 

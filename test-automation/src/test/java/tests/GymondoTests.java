@@ -6,11 +6,16 @@ import org.openqa.selenium.WebElement;
 import pages.LoginPage;
 import pages.MyPlanPage;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GymondoTests extends ChromeWebDriverTest {
     private LoginPage loginPage;
     private MyPlanPage myPlanPage;
+    private final String LOGIN = "qa-prod1@gymondo.de";
+    private final String PASSWORD = "purpleSquid22!";
 
     @BeforeEach
     public void init() {
@@ -19,12 +24,19 @@ public class GymondoTests extends ChromeWebDriverTest {
     }
 
     @Test
-    public void openLoginPage() {
+    public void openLoginPage() throws InterruptedException {
         loginPage.open();
         assertThat(loginPage.atPage()).isTrue();
-//        loginPage.loginButtonClick();
-        WebElement button = driver.findElementByCssSelector("nav.top-nav div.login-button-module--wrapper--_Sndu button.btn-gym");
-        button.click();
+        loginPage.acceptButtonClick();
+        loginPage.loginButtonClick();
+        loginPage.inputLoginPassword(LOGIN, PASSWORD);
+        loginPage.submitButtonClick();
+
+
+        //driver.findElementByCssSelector("div.modal_closeWrapper__BBoXJ").click();
+        myPlanPage.modalWindowsCloseButtonClick();
+
+
         System.out.println("OK");
     }
 

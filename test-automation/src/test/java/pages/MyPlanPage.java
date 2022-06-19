@@ -1,12 +1,19 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MyPlanPage{
 
     private final String MY_PLAN_PAGE = "https://www.gymondo.com/train/timeline";
     private final String CSS_PLAN_SETTINGS_BUTTON = "button.plan-settings-button_button__1npuE";
+    private final String MODAL_WINDOWS_CLOSE_BUTTON = "div.modal_closeWrapper__BBoXJ";
     private final String X_PATH_TRANING_DAYS_SELECTOR_SUNDAY_BUTTON = "//button[@role='option'][1]";
     private final String X_PATH_TRANING_DAYS_SELECTOR_MONDAY_BUTTON = "//button[@role='option'][2]";
     private final String X_PATH_TRANING_DAYS_SELECTOR_TUESDAY_BUTTON = "//button[@role='option'][3]";
@@ -20,6 +27,21 @@ public class MyPlanPage{
 
     public MyPlanPage(ChromeDriver driver) {
         this.driver = driver;
+    }
+
+    private WebElement getModalWindowsCloseButton() {
+
+       // return driver.findElementByCssSelector(MODAL_WINDOWS_CLOSE_BUTTON);
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement element = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector(MODAL_WINDOWS_CLOSE_BUTTON)));
+        return element;
+    }
+
+
+    public void modalWindowsCloseButtonClick() {
+        buttonClick(getModalWindowsCloseButton());
     }
 
     //private final String TITLE = "Gymondo Online Fitness - Get Fit & Happy at Home";
@@ -60,6 +82,15 @@ public class MyPlanPage{
 //        assertTrue(button.isDisplayed());
 //        button.click();
 //    }
+
+
+    //WebDriverWait wait=new WebDriverWait(driver, 20);
+    //element1 = wait.until(ExpectedConditions.elementToBeClickable(By.className("fa-stack-1x")));
+    private void buttonClick(WebElement button) {
+
+        //assertTrue(button.isDisplayed());
+        button.click();
+    }
 
     private boolean buttonEnableCheck (){
         return true;

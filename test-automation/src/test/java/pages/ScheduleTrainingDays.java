@@ -9,8 +9,6 @@ public enum ScheduleTrainingDays {
     THURSDAY("//button[@role='option'][5]"),
     FRIDAY("//button[@role='option'][6]"),
     SATURDAY("//button[@role='option'][7]");
-
-
     private final String xPath;
 
     ScheduleTrainingDays(String xPath) {

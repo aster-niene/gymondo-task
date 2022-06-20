@@ -2,16 +2,11 @@ package tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
 import pages.LoginPage;
 import pages.MyPlanPage;
 import pages.ProgramsPage;
-import pages.ScheduleTrainingDays;
-
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GymondoTests extends ChromeWebDriverTest {
     private final int MAXIMUM_NUMBER_ACTIVE_DAYS = 6;
@@ -40,29 +35,32 @@ public class GymondoTests extends ChromeWebDriverTest {
         preperNewTrainingProgram();
 
         myPlanPage.planSettingsButtonClick();
-        assertThat(myPlanPage.checkActivitySaveButton()).isFalse();
-        for(ScheduleTrainingDays day: ScheduleTrainingDays.values()){ myPlanPage.planSettingsDaysAddDay(day); }
+        assertThat(myPlanPage.planSettingsDaysCheckActivitySaveButton()).isFalse();
+        myPlanPage.planSettingsDaysAddOllDays();
         assertThat(myPlanPage.warningNumberSelectedDaysDisplayed()).isTrue();
-        assertThat(myPlanPage.checkActivitySaveButton()).isTrue();
+        assertThat(myPlanPage.planSettingsDaysCheckActivitySaveButton()).isTrue();
         myPlanPage.planSettingsDaysSaveButtonClick();
+        Thread.sleep(500);
         myPlanPage.planSettingsButtonClick();
-        assertThat(myPlanPage.planSettingsDaysNumberActiveDays() == MAXIMUM_NUMBER_ACTIVE_DAYS);
+        assertThat(myPlanPage.planSettingsDaysNumberActiveDays()).isEqualTo(MAXIMUM_NUMBER_ACTIVE_DAYS);
     }
-    private void preperNewTrainingProgram(){
-        if(myPlanPage.getGreetingSubtitle().getText().contains("Select a program and start planning your workout routine.")){
+
+    private void preperNewTrainingProgram() {
+        if (myPlanPage.getGreetingSubtitle().getText().contains("Select a program and start planning your workout routine.")) {
             createNewTrainingProgram();
-        }
-        else if (myPlanPage.getGreetingSubtitle().getText().contains("You have")){
+        } else if (myPlanPage.getGreetingSubtitle().getText().contains("You have") || myPlanPage.getGreetingSubtitle().getText().contains("Today is your")) {
             deleteOldTrainingProgram();
             createNewTrainingProgram();
         }
     }
-    private void createNewTrainingProgram(){
+
+    private void createNewTrainingProgram() {
         myPlanPage.startNewProgramButtonClick();
         programsPage.startProgramButtonClick();
         programsPage.planSettingsSaveButtonClick();
     }
-    private void deleteOldTrainingProgram(){
+
+    private void deleteOldTrainingProgram() {
         myPlanPage.planSettingsButtonClick();
         myPlanPage.planSettingsDaysEndButtonClick();
         myPlanPage.planSettingsDaysEndProgramButtonClick();

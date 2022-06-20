@@ -1,9 +1,7 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import tests.ChromeWebDriverTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pages.BasePage.GYMONDO_HOST;
@@ -24,7 +22,8 @@ public class LoginPage {
         this.driver = driver;
 
     }
-    public boolean atPage(){
+
+    public boolean atPage() {
         return driver.getTitle().equals(TITLE);
     }
 
@@ -32,31 +31,37 @@ public class LoginPage {
         driver.get(GYMONDO_HOST);
     }
 
-    private WebElement getAcceptButton(){
+    private WebElement getAcceptButton() {
         return BasePage.getElementWithExplicitWait(driver, CSS_ACCEPT_BUTTON);
         //return driver.findElementByCssSelector(CSS_ACCEPT_BUTTON);
     }
 
-    private WebElement getLoginField(){
+    private WebElement getLoginField() {
         return driver.findElementByCssSelector(CSS_LOGIN_FIELD);
     }
-    private WebElement getPasswordField(){
+
+    private WebElement getPasswordField() {
         return driver.findElementByCssSelector(CSS_PASSWORD_FIELD);
     }
-    private WebElement getSubmitButton(){
+
+    private WebElement getSubmitButton() {
         return driver.findElementByCssSelector(CSS_SUBMIT_BUTTON);
     }
+
     private WebElement getLoginButton() {
         return BasePage.getElementWithExplicitWait(driver, CSS_LOG_IN_BUTTON);
         //return  driver.findElementByCssSelector(CSS_LOG_IN_BUTTON);
     }
-    public void acceptButtonClick(){
+
+    public void acceptButtonClick() {
         buttonClick(getAcceptButton());
     }
+
     public void inputLoginPassword(String name, String password) {
         inputToFiled(getLoginField(), name);
         inputToFiled(getPasswordField(), password);
     }
+
     private void buttonClick(WebElement button) {
         button.click();
     }
@@ -68,6 +73,7 @@ public class LoginPage {
     public void loginButtonClick() {
         buttonClick(getLoginButton());
     }
+
     private void inputToFiled(WebElement field, String text) {
         assertTrue(field.isDisplayed());
         field.click();

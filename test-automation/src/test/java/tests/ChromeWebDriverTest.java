@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.TimeUnit;
 
 public class ChromeWebDriverTest {
     public static ChromeDriver driver;
@@ -15,11 +14,8 @@ public class ChromeWebDriverTest {
     public static void setUp() {
         String baseDirectory = Paths.get("").toAbsolutePath().toString();
         Path webDriverPath = Paths.get(baseDirectory, "/src/test/resources/chromedriver.exe");
-
         System.setProperty("webdriver.chrome.driver", webDriverPath.toString());
-
         driver = new ChromeDriver();
-        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @AfterAll

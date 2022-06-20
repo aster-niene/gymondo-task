@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import pages.LoginPage;
 import pages.MyPlanPage;
 import pages.ProgramsPage;
+import pages.ScheduleTrainingDays;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GymondoTests extends ChromeWebDriverTest {
+    private final int MAXIMUM_NUMBER_ACTIVE_DAYS = 6;
     private LoginPage loginPage;
     private MyPlanPage myPlanPage;
     private ProgramsPage programsPage;
@@ -27,30 +29,25 @@ public class GymondoTests extends ChromeWebDriverTest {
     }
 
     @Test
-    public void openLoginPage() throws InterruptedException {
+    public void planSettingsAddingWorkoutsDays() throws InterruptedException {
         loginPage.open();
         assertThat(loginPage.atPage()).isTrue();
         loginPage.acceptButtonClick();
         loginPage.loginButtonClick();
         loginPage.inputLoginPassword(LOGIN, PASSWORD);
         loginPage.submitButtonClick();
-
         myPlanPage.modalWindowsCloseButtonClick();
         preperNewTrainingProgram();
+
         myPlanPage.planSettingsButtonClick();
         assertThat(myPlanPage.checkActivitySaveButton()).isFalse();
-
-
-        //String startProgramm = driver.findElementByCssSelector("button.btn-gym.btn--flex.btn--medium.recommendation_button__jtVz9").getAttribute("type");
-
-
-
-
-
-        System.out.println("OK");
+        for(ScheduleTrainingDays day: ScheduleTrainingDays.values()){ myPlanPage.planSettingsDaysAddDay(day); }
+        assertThat(myPlanPage.warningNumberSelectedDaysDisplayed()).isTrue();
+        assertThat(myPlanPage.checkActivitySaveButton()).isTrue();
+        myPlanPage.planSettingsDaysSaveButtonClick();
+        myPlanPage.planSettingsButtonClick();
+        assertThat(myPlanPage.planSettingsDaysNumberActiveDays() == MAXIMUM_NUMBER_ACTIVE_DAYS);
     }
-
-
     private void preperNewTrainingProgram(){
         if(myPlanPage.getGreetingSubtitle().getText().contains("Select a program and start planning your workout routine.")){
             createNewTrainingProgram();
@@ -70,5 +67,4 @@ public class GymondoTests extends ChromeWebDriverTest {
         myPlanPage.planSettingsDaysEndButtonClick();
         myPlanPage.planSettingsDaysEndProgramButtonClick();
     }
-
 }

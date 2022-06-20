@@ -97,11 +97,8 @@ public class MyPlanPage {
     }
 
     public boolean planSettingsDaysCheckActivitySaveButton() {
-        WebElement planSettingsDaysSaveButton = driver.findElementByCssSelector("div.plan-settings-modal_footerButton__RJtdU button.btn-gym");
-        if (planSettingsDaysSaveButton.getAttribute("class").contains("btn--disabled")) {
-            return false;
-        }
-        return true;
+        return !driver.findElementByCssSelector("div.plan-settings-modal_footerButton__RJtdU button.btn-gym")
+                .getAttribute("class").contains("btn--disabled");
     }
 
     public void planSettingsDaysAddOllDays() {
@@ -111,11 +108,7 @@ public class MyPlanPage {
     }
 
     public boolean warningNumberSelectedDaysDisplayed() {
-        if (getWarningNumberSelectedDays().getText().contains("Please select between 1 and 6 workouts per week.")) {
-            return true;
-        } else {
-            return false;
-        }
+        return getWarningNumberSelectedDays().getText().contains("Please select between 1 and 6 workouts per week.");
     }
 
     private void buttonClick(WebElement button) {

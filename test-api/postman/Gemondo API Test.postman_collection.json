@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "8998fdc3-9f38-4e0d-9644-f8830f5e140d",
+		"name": "Gemondo API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1386430"
+	},
+	"item": [
+		{
+			"name": "Get token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"access_token\", data.access_token);\r",
+							"postman.setEnvironmentVariable(\"id_token\", data.id_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "date=2022-06-18T23%3A33%3A55%2B0200&password=purpleSquid22%21&username=qa-prod1%40gymondo.de"
+				},
+				"url": {
+					"raw": "{{gymondo_host}}/api/v2/oauth/token?locale=en_US",
+					"host": [
+						"{{gymondo_host}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "locale",
+							"value": "en_US"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Timeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get timeline\", function(){ \r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.have.property('status', 'OK');\r",
+							"    var timeline = pm.response.json();\r",
+							"\r",
+							"    pm.expect(timeline).to.have.property('daysStreak');\r",
+							"    pm.expect(timeline).to.have.property('workouts');\r",
+							"    pm.expect(timeline).to.have.property('calories');\r",
+							"    pm.expect(timeline).to.have.property('programs');\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-id-token",
+						"value": "{{id_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{gymondo_host}}/train/api/v3/statistics/timeline?locale=en_US",
+					"host": [
+						"{{gymondo_host}}"
+					],
+					"path": [
+						"train",
+						"api",
+						"v3",
+						"statistics",
+						"timeline"
+					],
+					"query": [
+						{
+							"key": "locale",
+							"value": "en_US"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
